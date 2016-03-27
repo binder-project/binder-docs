@@ -1,3 +1,3 @@
-# about
+# module
 
-hello
+This is a stub for individual module documentation. 

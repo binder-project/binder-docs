@@ -1,11 +1,10 @@
 module.exports = {
 'overview': {
-    'about': 'stub.md',
-    'introduction': 'stub.md',
-    'getting started': 'stub.md',
-    'api docs': 'stub.md',
-    'frequently asked questions': 'stub.md',
-    'contributing': 'stub.md'
+    'introduction': 'introduction.md',
+    'getting started': 'getting-started.md',
+    'api docs': 'api-docs.md',
+    'frequently asked questions': 'faq.md',
+    'contributing': 'contributing.md'
   },
   'packages': {
     'interface': {

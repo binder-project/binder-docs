@@ -7,8 +7,3 @@ docs({
   contents: contents,
   logo: 'logo.svg'
 })
-
-// minidocs contents.json folder -o build
-
-// build/index.html
-// build/index.js
