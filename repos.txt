@@ -5,3 +5,6 @@ binder-project/binder-client
 binder-project/binder-protocol
 binder-project/binder-build
 binder-project/binder-db
+binder-project/binder-deploy-kubernetes
+binder-project/binder-utils
+binder-project/binder-module
