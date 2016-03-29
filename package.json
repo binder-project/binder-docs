@@ -4,7 +4,9 @@
   "description": "documentation for the binder project",
   "main": "index.js",
   "scripts": {
-    "start": "budo index.js"
+    "start": "budo index.js",
+    "sync": "cat repos.txt | ecosystem-docs sync",
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",

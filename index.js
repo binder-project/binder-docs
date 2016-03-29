@@ -3,7 +3,7 @@ var contents = require('./contents')
 
 var theme 
 
-docs({
-  contents: contents,
-  logo: 'logo.svg'
+docs(contents, {
+  logo: 'logo.svg',
+  style: true
 })

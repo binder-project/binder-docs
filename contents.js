@@ -8,27 +8,25 @@ module.exports = {
   },
   'packages': {
     'interface': {
-      'binder-client': 'stub.md',
-      'binder-control': 'stub.md',
-      'binder-web': 'stub.md'
+      'binder-client': 'binder-client.md',
+      'binder-control': 'binder-control.md',
+      'binder-web': 'binder-web.md'
     },
     'core': {
-      'binder-build': 'stub.md',
-      'binder-build-core': 'stub.md',
-      'binder-deploy-kubernetes': 'stub.md'
+      'binder-build': 'binder-build.md',
+      'binder-build-core': 'binder-build-core.md',
+      'binder-deploy-kubernetes': 'binder-deploy-kubernetes.md'
     },
     'utilities': {
-      'binder-db': 'stub.md',
-      'binder-logging': 'stub.md',
-      'binder-utils': 'stub.md',
-      'binder-module': 'stub.md',
-      'generator-binder-module': 'stub.md'
+      'binder-db': 'binder-db.md',
+      'binder-logging': 'binder-logging.md',
+      'binder-utils': 'binder-utils.md',
+      'binder-module': 'binder-module.md'
     },
     'examples': {
-      'example-requirements': 'stub.md',
-      'example-dockerfile': 'stub.md',
-      'example-conda-yml': 'stub.md',
-      'example-binder-yml': 'stub.md'
+      'example-requirements': 'example-requirements.md',
+      'example-dockerfile': 'example-dockerfile.md',
+      'example-conda-environment': 'example-conda-environment.md'
     }
   }
 }

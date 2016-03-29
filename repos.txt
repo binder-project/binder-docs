@@ -8,3 +8,6 @@ binder-project/binder-db
 binder-project/binder-deploy-kubernetes
 binder-project/binder-utils
 binder-project/binder-module
+binder-project/example-requirements
+binder-project/example-dockerfile
+binder-project/example-conda-environment
