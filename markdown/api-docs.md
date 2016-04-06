@@ -1,7 +1,7 @@
 # api docs
 
 The Binder HTTP API consists of endpoints for building, launching, and querying the status of 
-binders. A complete, Swagger-like description of the API, including error conditions 
+binders. A complete description of the API, including error conditions 
 (and recommended fixes), can be found in
 [`binder-protocol`](https://github.com/binder-project/binder-protocol/blob/master/index.js)
 
