@@ -9,13 +9,13 @@ module.exports = {
   'packages': {
     'interface': {
       'binder-client': 'binder-client.md',
-      'binder-control': 'binder-control.md',
-      'binder-web': 'binder-web.md'
+      'binder-control': 'binder-control.md'
     },
     'core': {
       'binder-build': 'binder-build.md',
       'binder-build-core': 'binder-build-core.md',
-      'binder-deploy-kubernetes': 'binder-deploy-kubernetes.md'
+      'binder-deploy-kubernetes': 'binder-deploy-kubernetes.md',
+      'binder-web': 'binder-web.md'
     },
     'utilities': {
       'binder-db': 'binder-db.md',

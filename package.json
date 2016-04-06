@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "budo index.js",
-    "sync": "cat repos.txt | ecosystem-docs sync",
-    "build": "node build.js"
+    "sync": "rm -rf ~/.ecosystem-docs && node build.js",
+    "build": "npm run sync && browserify index.js -o site/bundle.js",
+    "deploy": "npm run build && surge site docs.mybinder.org"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,12 @@
     "cluster",
     "kubernetes"
   ],
+  "browserify": {
+    "transform": [
+      "brfs",
+      "folderify"
+    ]
+  },
   "author": "freeman-lab",
   "license": "MIT",
   "bugs": {
@@ -30,6 +37,8 @@
     "bulkify": "^1.2.0",
     "dom-css": "^2.0.0",
     "ecosystem-docs": "^1.1.0",
+    "folderify": "^1.2.1",
+    "include-folder": "^1.0.0",
     "yo-yo": "^1.1.1"
   }
 }

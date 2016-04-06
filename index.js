@@ -1,9 +1,11 @@
 var docs = require('minidocs')
+var include = require('include-folder')
 var contents = require('./contents')
 
 var theme 
 
-docs(contents, {
-  logo: 'logo.svg',
-  style: true
+docs({
+  contents: contents,
+  markdown: include('./markdown'),
+  logo: 'logo.svg'
 })
