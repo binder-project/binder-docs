@@ -1,6 +1,6 @@
 # frequently asked questions
 
-These are questions that commonly come up for users of the public Binder deployment.
+These are questions that frequently come up for users of the public Binder deployment.
 
 ### where is this running?
 

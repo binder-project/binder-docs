@@ -25,5 +25,5 @@ Here are some features we'd like to add over the next months, with the module(s)
 #### june 2016
 
  - Support instantaneous deployment times using pools of pre-deployed Binders [`binder-deploy`]
- - Add support for user-provided Docker base images [`binder-build`, `binder-registry`]
+ - Add support for user-provided Docker base images [`binder-build`]
  - Support headless Binder kernels to connect to embeddable code cells [`binder-deploy-kubernetes`]

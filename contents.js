@@ -6,11 +6,12 @@ module.exports = {
   },
   'devs': {
     'overview': 'devs-introduction.md',
+    'how it works': 'how-it-works.md',
     'custom deployments': 'custom-deployments.md',
     'api docs': 'api-docs.md',
     'contributing': 'contributing.md'
   },
-  'packages': {
+  'modules': {
     'interface': {
       'binder-client': 'binder-client.md',
       'binder-control': 'binder-control.md'
