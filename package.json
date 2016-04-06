@@ -34,11 +34,8 @@
   "homepage": "https://github.com/binder-project/binder-docs#readme",
   "dependencies": {
     "brfs": "^1.4.3",
-    "bulkify": "^1.2.0",
-    "dom-css": "^2.0.0",
     "ecosystem-docs": "^1.1.0",
     "folderify": "^1.2.1",
-    "include-folder": "^1.0.0",
-    "yo-yo": "^1.1.1"
+    "include-folder": "^1.0.0"
   }
 }

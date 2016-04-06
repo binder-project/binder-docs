@@ -1,9 +1,13 @@
 module.exports = {
-'overview': {
-    'introduction': 'introduction.md',
+  'users': {
+    'introduction': 'users-introduction.md',
     'getting started': 'getting-started.md',
+    'frequently asked questions': 'faq.md'
+  },
+  'devs': {
+    'overview': 'devs-introduction.md',
+    'custom deployments': 'custom-deployments.md',
     'api docs': 'api-docs.md',
-    'frequently asked questions': 'faq.md',
     'contributing': 'contributing.md'
   },
   'packages': {
@@ -15,6 +19,7 @@ module.exports = {
       'binder-build': 'binder-build.md',
       'binder-build-core': 'binder-build-core.md',
       'binder-deploy-kubernetes': 'binder-deploy-kubernetes.md',
+      'binder-protocol': 'binder-protocol.md',
       'binder-web': 'binder-web.md'
     },
     'utilities': {
