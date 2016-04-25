@@ -4,7 +4,7 @@
   "description": "documentation for the binder project",
   "main": "index.js",
   "scripts": {
-    "start": "budo index.js",
+    "start": "budo index.js --live",
     "sync": "rm -rf ~/.ecosystem-docs && node build.js",
     "build": "npm run sync && browserify index.js -o site/bundle.js",
     "deploy": "npm run build && surge site docs.mybinder.org"
@@ -37,5 +37,8 @@
     "ecosystem-docs": "^1.1.0",
     "folderify": "^1.2.1",
     "include-folder": "^1.0.0"
+  },
+  "devDependencies": {
+    "budo": "^8.2.1"
   }
 }
