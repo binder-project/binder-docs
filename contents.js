@@ -1,4 +1,7 @@
 module.exports = {
+  'contents': {
+    'before you begin': 'before-you-begin.md'
+  },
   'users': {
     'introduction': 'users-introduction.md',
     'getting started': 'getting-started.md',
