@@ -1,7 +1,7 @@
 ### before you begin
 
 Welcome to the Binder documentation site! Before you dive in, here's a quick overview of how we've
-decided to split up the documentation: 
+decided to split up the docs: 
 
 #### users
 If you're new to the project, or you just want to start creating some executable environments out of
