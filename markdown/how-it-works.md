@@ -12,9 +12,9 @@ subset of the API described in
 [`binder-protocol`](http://github.com/binder-project/binder-protocol), and can be independently
 managed/tested through standard `npm` commands (i.e. `npm start`, `npm test`). Currently, the
 complete Binder API is implemented by two modules:
-1. [`binder-build`](http://github.com/binder-project/binder-build) - implements the `build` and
+ 1. [`binder-build`](http://github.com/binder-project/binder-build) - implements the `build` and
    `registry` portions of the API
-2. [`binder-deploy-kubernetes](http://github.com/binder-project/binder-deploy-kubernetes) -
+ 2. [`binder-deploy-kubernetes`](http://github.com/binder-project/binder-deploy-kubernetes) -
     implements the `deploy` portion of the API
 A more complete description of the API can be found in the "API" section.
 
@@ -22,11 +22,11 @@ A more complete description of the API can be found in the "API" section.
 
 Every Binder server depends on a few shared "services" that are accessed through common
 interfaces. Currently, the required services for a complete, end-to-end capable setup are:
-1. a [MongoDB](mongodb.org) database wrapped by [Mongoose](mongoosejs.com) which will store all
+ 1. a [MongoDB](mongodb.org) database wrapped by [Mongoose](mongoosejs.com) which will store all
    build and deployment-related information.
-2. an ELK (Elasticsearch, Logstash, Kibana) stack which does centralized logging and serves live
+ 2. an ELK (Elasticsearch, Logstash, Kibana) stack which does centralized logging and serves live
    build logs
-3. a Kubernetes cluster or single-machine Kubernetes VM, which can run Binder images
+ 3. a Kubernetes cluster or single-machine Kubernetes VM, which can run Binder images
 
 You can definitely provide your own services (and insert the appropriate configuration options for your
 infrastructure in the `~/.binder/\*` configuration files described below), but for simplicity we
@@ -38,9 +38,6 @@ section.
 These database and logging services are accessed through the [`binder-db`](http://github.com/binder-project/binder-db) and [`binder-logging`](http://github.com/binder-project/binder-logging) modules, which 
 connect to their respective services according to the configuration options described below.
 
-1. [`binder-db`](http://github.com/binder-project/binder-db) - a [MongoDB](mongodb.org) database 
-	wrapped by [Mongoose](mongoosejs.com)
-2. [`binder-logging`](http://github.com/binder-project/binder-logging) - 
 *Note*: These services *must* be available to the server at all times, even during testing.
 
 ##### inspecting servers/services with PM2
@@ -113,10 +110,10 @@ to be bundled into a Binder image. All fetching logic is contained in the
 [here](https://github.com/binder-project/binder-build/blob/master/lib/sources/github.js).
 
 Each source handler (currently GitHub is the only supported source), is responsible for:
-1. Fetching and extracting the actual repository into a directory, given some identifier string 
+ 1. Fetching and extracting the actual repository into a directory, given some identifier string 
    (in the GitHub handler's case, that string is a repo URL).
-2. Generating a display name from that identifier string (repo URL -> org-name/repo-name)
-3. Generating an image name that will be used throughout the rest of the build process 
+ 2. Generating a display name from that identifier string (repo URL -> org-name/repo-name)
+ 3. Generating an image name that will be used throughout the rest of the build process 
    (repo URL -> org-name-repo-name)
 
 Using the [`binder-project-example-requirements`](http://github.com/binder-project/example-requirements)
@@ -179,11 +176,11 @@ Converting a directory into a Docker image is managed by a set of "dependency ha
 be found in [`dependencies`](https://github.com/binder-project/binder-build-core/tree/master/dependencies)
 of `binder-build-core`. Each dependency handler manages a single filetype (i.e. `requirements.txt`) 
 and provides the following:
-1. a precedence - defines which dependency files should take priority if multiple are present in
+ 1. a precedence - defines which dependency files should take priority if multiple are present in
    a directory
-2. a _generateString method - given the handler's filetype of interest, return a list of
+ 2. a _generateString method - given the handler's filetype of interest, return a list of
    Dockerfile directives
-3. (optional) a schema - a `JSONSchema` or a `YAMLSchema` that will be applied to the
+ 3. (optional) a schema - a `JSONSchema` or a `YAMLSchema` that will be applied to the
    file before any additional handling
 
 The dependency handlers will add lines to a Dockerfile, and that Dockerfile will immediately be used
@@ -192,10 +189,10 @@ many Binder-compatible base images. For standard dependency files (currently `re
 and `environment.yml`), a single base image (`andrewosh/binder-base`) is used. If this level of 
 customization is insufficient, and a user wishes to write their own Dockerfile, then that Dockerfile 
 can use any of the following base images:
-1. `andrewosh/binder-python-2.7` - a full Anaconda 2 installation
-2. `andrewosh/binder-python-2.7-mini` - uses Miniconda instead of Anaconda
-3. `andrewosh.binder-python-3.5` - a full Anaconda 3 installation
-4. `andrewosh/binder-python-3.5-mini` - uses Miniconda instead of Anaconda
+ 1. `andrewosh/binder-python-2.7` - a full Anaconda 2 installation
+ 2. `andrewosh/binder-python-2.7-mini` - uses Miniconda instead of Anaconda
+ 3. `andrewosh.binder-python-3.5` - a full Anaconda 3 installation
+ 4. `andrewosh/binder-python-3.5-mini` - uses Miniconda instead of Anaconda
 
 Continuing with the `binder-project-example-requirements` example, the build process will generate
 this Dockerfile:
@@ -292,9 +289,9 @@ that node will have to pull any Docker images that are not already present from 
 can take up to a minute.
 
 To solve these problems, we introduce:
-1. a proxy pod - proxy routes are registered with a proxy pod that has access to both the external
+ 1. a proxy pod - proxy routes are registered with a proxy pod that has access to both the external
    WAN and the internal network
-2. a preloading step - `binder-deploy-kubernetes` exposes a `\_preload` hidden API method that will
+ 2. a preloading step - `binder-deploy-kubernetes` exposes a `\_preload` hidden API method that will
    schedule a pod onto every node of the cluster, forcing an image pull on each of those nodes.
 These bits are described in more detail below.
 
@@ -329,9 +326,9 @@ IP/port combo.
 Alongside the proxy pod, we create two proxy [Services](http://kubernetes.io/v1.0/docs/user-guide/services.html),
 the `proxy-lookup-service` and the `proxy-registration-service`. When run on a cloud provider like
 GCE, both services are assigned load balancers and external IP addresses:
-1. The `proxy-lookup-service` will extract the path from its URL (i.e. `http://<lookup-ip>/path/to/pod`)
+ 1. The `proxy-lookup-service` will extract the path from its URL (i.e. `http://<lookup-ip>/path/to/pod`)
    and proxy requests to an internal IP (i.e. `<pod-ip>:8888`)
-2. The `proxy-registration-service` will register the mappings used by the lookup service -- `POST`
+ 2. The `proxy-registration-service` will register the mappings used by the lookup service -- `POST`
    requests are sent to this endpoint whenever new pods are created
 
 ##### cleanup
