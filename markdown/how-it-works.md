@@ -302,6 +302,40 @@ The complete pod generation process is located in [`lib/state/app.js`](https://g
 
 ##### preloading
 
+In order to support near-instantaneous (5-10s) deployment times, we need to ensure that every
+Docker image being scheduled onto a node is already present at deploy time. Since we don't require
+SSH access into the cluster nodes, and the Kubernetes scheduler is still early and in rapid development,
+our preloading step might appear slightly hacky: We iterate over every node in the cluster, tag
+that node with a label that matches the template name, and then schedule a pod onto that node with 
+a cull timeout (described below) of 1 second.
+
+This means that if there are N nodes in your cluster, the preloading step will launch N pods, but
+those pods will be immediately removed the next time the cleanup job runs.
+
+Kubernetes automatically garbage-collects old, unused images in LRU order. For this reason, we 
+cannot guarantee instantaneous deployment times for very old, unused images until the node has
+been "refreshed" with that image (after the very first launch).
 
 ##### the proxy
+
+The proxy pod is what enables external access to pods scheduled onto the cluster. We used a 
+modified version of Jupyter's [`configurable-http-proxy`](https://github.com/andrewosh/configurable-http-proxy)
+that's been augmented with a MongoDB database.
+
+Every time a Binder pod is scheduled, a route is registered with the proxy pod, and the proxy will,
+well, proxy requests from an externally-visible endpoint to that route, which points to an internal
+IP/port combo.
+
+Alongside the proxy pod, we create two proxy [Services](http://kubernetes.io/v1.0/docs/user-guide/services.html),
+the `proxy-lookup-service` and the `proxy-registration-service`. When run on a cloud provider like
+GCE, both services are assigned load balancers and external IP addresses:
+1. The `proxy-lookup-service` will extract the path from its URL (i.e. `http://<lookup-ip>/path/to/pod`)
+   and proxy requests to an internal IP (i.e. `<pod-ip>:8888`)
+2. The `proxy-registration-service` will register the mappings used by the lookup service -- `POST`
+   requests are sent to this endpoint whenever new pods are created
+
 ##### cleanup
+
+Every Binder deployment is assigned a `cull-timeout`, which is the duration for which the pod can
+be inactive (no HTTP requests have been proxied to it) before being deleted. By default, Binder
+assigns every pod a 1-hour cull-timeout, except for the preloader pods described above.
