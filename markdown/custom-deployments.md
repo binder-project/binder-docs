@@ -22,14 +22,14 @@ using `binder-control start-all`.
 The quickest way to get started with Binder is to provision a single machine that will run all
 the Binder services and servers (see the "services and servers" section of the "how it works" 
 page). This machine needs to have the following tools installed:
-1. [Docker](https://docs.docker.com/engine/installation/) - Docker must be installed if you
+ 1. [Docker](https://docs.docker.com/engine/installation/) - Docker must be installed if you
    plan on using any of Binder's built-in services. If you're going to be using an existing
    database or logging stack, it is not necessary.
-2. [Docker-Compose](https://docs.docker.com/compose/install/) - (same comments as above)
+ 2. [Docker-Compose](https://docs.docker.com/compose/install/) - (same comments as above)
 
 Before proceeding, make sure that both Docker and Docker-Compose were installed correctly:
-1. Make sure `docker run hello-world` succeeds
-2. Make sure `docker-compose --version` succeeds
+ 1. Make sure `docker run hello-world` succeeds
+ 2. Make sure `docker-compose --version` succeeds
 
 #### gce
 
