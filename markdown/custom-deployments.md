@@ -1,10 +1,10 @@
 # custom deployments
 
-We've tried to make it as simple as possible to launch a custom Binder deployment using either
-your own infrastructure or a cloud provider. Most of Binder's flexibility comes from Kubernetes'
-flexibility -- there are many different ways to create a Kubernetes cluster, locally or elsewhere.
-Binder does not require SSH access to the cluster nodes, and only depends on the Kubernetes HTTP
-API, making it simpler to connect to existing clusters. Similarly, default versions of all other
+If you have needs that aren't met by the public cluster -- you want to use private data, or you need the guaranteed availability of a certain number of slots -- then the best way to use Binder is to launch your own custom deployment!
+
+We've tried to make it as simple as possible to launch custom Binder deployments using either
+your own infrastructure or a cloud provider. The only requirements for setting up your own version of Binder are NodeJS, Docker and a Kubernetes cluster, all of which come bundled in the `binder-control` module for ease of use. 
+If you're going to use your own Kubernetes cluster, Binder does not require SSH access to the cluster nodes, and only depends on the Kubernetes HTTP API, which should make integration simpler. Similarly, default versions of all other
 Binder components have been packaged into Docker images, making it simple to spin up Binder
 servers/services anywhere Docker is available.
 
