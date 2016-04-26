@@ -35,25 +35,25 @@ Before proceeding, make sure that both Docker and Docker-Compose were installed 
 
 To use GCE, you first need to make sure that the `gcloud` utility is configured and authenticated
 on your newly-provisioned machine:
-1. Create an account on the Google Cloud Platform
-2. Create a new Project on the GCP, and enable Google Compute Engine for your project -- ensure
+ 1. Create an account on the Google Cloud Platform
+ 2. Create a new Project on the GCP, and enable Google Compute Engine for your project -- ensure
    that the project is given a billing account
-3. On the Binder server:
-  1. Install the [`gcloud`](https://cloud.google.com/sdk/) CLI tool
-  2. `gcloud auth login`
-  3. `gcloud config set project <project-name>`
+ 3. On your Binder server:
+   1. Install the [`gcloud`](https://cloud.google.com/sdk/) CLI tool
+   2. `gcloud auth login`
+   3. `gcloud config set project <project-name>`
 
 Now that `gcloud` is configured, proceed with the `binder-control` installation
-1. Install PM2: `npm install pm2 -g`
-2. Install `binder-control`: `npm install binder-control -g`
+ 1. Install PM2: `npm install pm2 -g`
+ 2. Install `binder-control`: `npm install binder-control -g`
 
 With everything installed, launch the servers/services
-1. `binder-control start-all`
-  1. When prompted, start the `kube-cluster` service
-  2. When prompted, optionally start the `db` service (unless you provide your own db)
-  3. When prompted, Optionally start the `logging` service (unless you provide your own logging stack)
-  4. Leave the Kubernetes provider as "gce"
-  5. Choose how large you would like to make your cluster (the number of Kubernetes minions)
+ 1. `binder-control start-all`
+   1. When prompted, choose to start the `kube-cluster` service
+   2. When prompted, optionally start the `db` service (unless you provide your own db)
+   3. When prompted, Optionally start the `logging` service (unless you provide your own logging stack)
+   4. Leave the Kubernetes provider as "gce"
+   5. Choose how large you would like to make your cluster (the number of Kubernetes minions)
 
 __Note__: Launching a cluster can get expensive! Make sure to research hourly instance 
           [costs](https://cloud.google.com/compute/pricing) and select a node count that fits in
