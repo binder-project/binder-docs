@@ -210,15 +210,15 @@ USER main
 
 RUN find $HOME/notebooks -name '*.ipynb' -exec ipython trust {} \;
 
-ADD requirements.txt requirements.txt                \*
-ADD handle-requirements.py handle-requirements.py    \*
-RUN python handle-requirements.py                    \*
+ADD requirements.txt requirements.txt                *
+ADD handle-requirements.py handle-requirements.py    *
+RUN python handle-requirements.py                    *
 
 USER main
 WORKDIR $HOME/notebooks
 ```
 
-The lines ending with '\*' were inserted by the dependency handler -- the remaining lines are common
+The lines ending with '*' were inserted by the dependency handler -- the remaining lines are common
 to all generated Dockerfiles.
 
 See the `binder-build-core` and `binder-build` documentation pages for more details about the build 
@@ -291,7 +291,7 @@ can take up to a minute.
 To solve these problems, we introduce:
  1. a proxy pod - proxy routes are registered with a proxy pod that has access to both the external
    WAN and the internal network
- 2. a preloading step - `binder-deploy-kubernetes` exposes a `\_preload` hidden API method that will
+ 2. a preloading step - `binder-deploy-kubernetes` exposes a `_preload` hidden API method that will
    schedule a pod onto every node of the cluster, forcing an image pull on each of those nodes.
 These bits are described in more detail below.
 
