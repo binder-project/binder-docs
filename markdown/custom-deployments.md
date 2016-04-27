@@ -44,7 +44,12 @@ Now that `gcloud` is configured, proceed with the `binder-control` installation
  1. Install PM2: `npm install pm2 -g`
  2. Install `binder-control`: `npm install binder-control -g`
 
-With everything installed, launch the servers/services
+Since we're launching the Kubernetes cluster on GCE, we will configure the `binder-build` server to push its images to the Google Container Registry:
+ 1. Set the `docker.registry` field to `gcr.io/<project-name>` in `~/.binder/core.conf`
+
+If you'd like to use a different Docker registry, then be sure to insert your Docker credentials into `~/.binder/core.conf` as well. 
+
+With everything installed and configured, it's time to launch the servers/services!
  1. `binder-control start-all`
    1. When prompted, choose to start the `kube-cluster` service
    2. When prompted, optionally start the `db` service (unless you provide your own db)
