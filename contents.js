@@ -1,6 +1,6 @@
 module.exports = {
-  'contents': {
-    'before you begin': 'before-you-begin.md'
+  'welcome': {
+    'start here': 'start-here.md'
   },
   'users': {
     'introduction': 'users-introduction.md',

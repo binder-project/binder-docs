@@ -36,7 +36,8 @@
     "brfs": "^1.4.3",
     "ecosystem-docs": "^1.1.0",
     "folderify": "^1.2.1",
-    "include-folder": "^1.0.0"
+    "include-folder": "^1.0.0",
+    "minidocs": "^1.2.1"
   },
   "devDependencies": {
     "budo": "^8.2.1"

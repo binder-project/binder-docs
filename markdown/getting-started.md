@@ -12,23 +12,15 @@ There are many different environment specification files you can insert into you
 
 Binder currently supports the following configuration files:
 
-#### `.binder.yml`
-
-The `.binder.yml` file is designed as a compromise between simple, language-specific configuration files like Python's `requirements.txt`, and the more complete, but more complicated `Dockerfile`. We drew inspiration from continuous integration tools like Travis. 
-
-If possible, try to use a `.binder.yml` file. Of all the options, it allows for the most complete environment description, and is more future-proof.
-
-[TODO: FILL IN]
-
-#### `requirements.txt`
+### `requirements.txt`
 
 This is a file used by Python and the Python package manager [`pip`](https://github.com/pypa/pip) for listing a set of project dependencies with optional version specifications. Check out an example repository that uses a `requirements.txt` file [here](https://github.com/binder-project/example-requirements).
 
-#### `environment.yml`
+### `environment.yml`
 
 This is a file used with the package management system [`conda`](https://github.com/conda/conda), and can specify both a language version, and a set of package dependencies. Check out an example repository that uses an `environment.yml` file [here](https://github.com/binder-project/example-conda-environment).
 
-#### `Dockerfile`
+### `Dockerfile`
 
 Under the hood, Binder uses [`docker`](https://github.com/docker/docker) to build images, and it is possible to specify a Binder by directly providing a `Dockerfile`. Check out an example of using a custom `Dockerfile` [here](https://github.com/binder-project/example-dockerfile). When using a `Dockerfile`, we recommend testing your build in a local environment before submitting to Binder, as it will be easier and faster to debug build errors. All builds with Dockerfiles must be based off of one of the following base images: `binder-base`, `binder-base-minimal`.
 
@@ -36,15 +28,15 @@ Under the hood, Binder uses [`docker`](https://github.com/docker/docker) to buil
 
 During the build process, the entire contents of your repository are inserted into a Docker image at `/home/main/notebooks`. This can be used in a few different ways.
 
-#### custom libraries
+### custom libraries
 
 If you include custom libraries in your repository, you can import them from within your notebook at `/home/main/notebooks/<library name>`. 
 
-#### data
+### data
 
 If your repository contains data, you can load it directly from `/home/main/notebooks/<path to data>`. For small data files — less than a couple hundred MBs — we recommend putting them directly in your repository. For larger data files, if you can make them publicly available in cloud storage like Amazon S3, you can load them into your environment at run time. We are exploring ways to integrate with the [`dat`](http://dat-data.com) project to better support versioned data.
 
-#### the `index.ipynb` file
+### the `index.ipynb` file
 
 Binder expects your analyses to be contained in Jupyter notebooks. If you include a special notebook called `index.ipynb`, Binder will treat that as the entrypoint into your application, and users will be redirected directly to that notebook when they launch your Binder.
 
