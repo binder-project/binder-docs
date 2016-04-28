@@ -1,65 +1,146 @@
 # custom deployments
 
-If you have needs that aren't met by the public cluster -- you want to use private data, or you need the guaranteed availability of a certain number of slots -- then the best way to use Binder is to launch your own custom deployment!
+If your needs go beyond the public cluster — maybe you want to use private data, or need to guarantee a certain number of slots — you might be interested in a custom deployment.
 
-We've tried to make it as simple as possible to launch custom Binder deployments using either your own infrastructure or a cloud provider. The only requirements for setting up your own version of Binder are NodeJS, Docker and a Kubernetes cluster, all of which come bundled in the `binder-control` module for ease of use. 
+We've tried to make it as simple as possible to launch Binder deployments using either your own infrastructure or a cloud provider. The only requirements are node.js, Docker, and a Kubernetes cluster, and we provide a command line-tool `binder-control` to make configuration easy.
 
-If you're going to use your own Kubernetes cluster, Binder does not require SSH access to the cluster nodes, and only depends on the Kubernetes HTTP API, which should make integration simpler. Similarly, default versions of all other Binder components have been packaged into Docker images, making it simple to spin up Binder servers and services anywhere Docker is available.
+The public Binder cluster is running on Google Compute Engine (GCE), and this is currently the most stable and well-tested deployment setting. You can launch a single machine on GCE to run all the Binder services and servers, and we have packaged all Binder components into Docker images, so that you can do all launching and configuration with the `binder-control` command-line tool. This guide will walk through that approach.
 
-Each Binder server is designed to be run independently, and the configuration files available in
-the `~/.binder` directory enable a variety of different deployment types. ranging from the complete use of existing infrastructure (an existing Kubernetes cluster, database, etc.) to the complete use of Binder's included components launched using the provided command-line tools.
+However, the system can also adapt to your environment. If you want to use your own Kubernetes cluster, Binder can integrate with it entirely through the Kubernetes HTTP API, so it does not require SSH access to the cluster nodes. And each Binder server is designed to run independently, and the configuration files in `~/.binder` enable a variety of different deployment types. 
 
-The public Binder cluster is running on GCE, and that is currently the most stable and tested  deployment setting. If possible, we recommend starting out with a GCE cluster and default settings using the command
+## launching a server
+
+The simplest approach is to provision a single machine that will run all the Binder services and servers. This machine needs to have the following installed:
+ - [docker](https://docs.docker.com/engine/installation/)
+ - [docker-compose](https://docs.docker.com/compose/install/)
+ - [gcloud](https://cloud.google.com/sdk/)
+ - [node](https://nodejs.org/)
+ - [pm2](https://npmjs.org/package/pm2)
+
+We recommend launching this machine on GCE, and below are all of the neccessary steps. If you are using your own machine, some of these steps may be unneccessary or may need to be modified.
+
+First create an account on the Google Cloud Platform [website](https://cloud.google.com/). Then create a new project, and enable Google Compute Engine for your project. You'll need to ensure that you've added a billing account to the project. 
+
+We recommend using a machine with Ubuntu 14.x, and at least 4 CPUs, 6 GB of RAM, and a 20 GB disk. In general, more CPU will enable faster build times, and more disk space will let you store more images. Also while configuring your machine, make sure to enable HTTP and HTTPS. We'll assume your project is called `binder` and your machine is called `binder-server`.
+
+Now SSH into the machine and perform the following installation steps.
+
+#### install `docker`
+
+This is based on the official Docker [instructions](https://docs.docker.com/engine/installation/linux/ubuntulinux/). First execute these lines
+
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates
+sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+sudo vim /etc/apt/sources.list.d/docker.list
+```
+
+Then open `/etc/apt/sources.list.d/docker.list` with `vim` or any other editor and add the following line
+
+```bash
+deb https://apt.dockerproject.org/repo ubuntu-trusty main
+```
+
+Then proceed with the remaining steps
+
+```bash
+sudo apt-get update
+sudo apt-get install linux-image-extra-$(uname -r)
+sudo apt-get install apparmor
+sudo apt-get install docker-engine
+sudo usermod -aG docker <username>
+```
+
+Exit and log back in, then test that it's working with
+
+```bash
+docker run hello-world
+```
+
+#### install `docker-compose`
+
+```bash
+sudo -i
+curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
+
+Test that it's working with
+
+```bash
+docker-compose --version
+```
+
+#### install `gcloud`
+
+```bash
+wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-107.0.0-linux-x86_64.tar.gz
+tar xvf google-cloud-sdk-107.0.0-linux-x86_64.tar.gz
+./google-cloud-sdk/install.sh
+```
+
+Exit and log back in.
+
+#### setup authentication
+
+```bash
+gcloud auth login
+```
+
+Respond to all instructions.
+
+#### install `node`
+
+We recommend using `nvm`
+
+```bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+```
+
+Exit and log back in, then call
+
+```bash
+nvm install 5.11.0
+```
+
+#### install `pm2`
+
+```bash
+npm install pm2 -g
+```
+
+#### install `binder-control`
+
+```bash
+npm install binder-control -g
+```
+
+#### configure the docker registry
+
+Open the file `~/.binder/core.conf` and set the `docker.registry` field to `gcr.io/<project-name>` (in this example it would be `gcr.io/binder`)
+
+## launch binder
+
+Once you have a server provisioned as above, use this command to launch Binder
 
 ```bash
 binder-control start-all
 ```
 
-### the fastest way
+This will initiate a series of steps that launch the `build` and `deploy` servers and the `logging` and `db` services, and creates a Kubernetes cluster.
 
-The quickest way to get started with Binder is to provision a single machine that will run all
-the Binder services and servers (see the "services and servers" section of the "how it works" 
-page). This machine needs to have the following tools installed:
- - [docker](https://docs.docker.com/engine/installation/): required for using any of Binder's built-in services, but not necessary if you're going to be using an existing
-   database or logging stack.
- - [docker-compose](https://docs.docker.com/compose/install/): same requirements as for `docker`
+Respond to each prompt. You can leave most settings as is, though you may need to change them if e.g. you are running your own database or logging services. In the final step, when picking how large you'd like to make your Kubernetes cluster, remember that *launching a cluster costs real money* and make sure to research hourly instance [costs](https://cloud.google.com/compute/pricing).
 
-Before proceeding, make sure that both Docker and Docker-Compose were installed correctly:
- - make sure `docker run hello-world` succeeds
- - make sure `docker-compose --version` succeeds
+After the launch, use the following command to make the binder web client visible on port 80.
 
-#### gce
+```bash
+sudo iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 3000
+```
 
-To use GCE, you first need to make sure that the `gcloud` utility is configured and authenticated
-on your newly-provisioned machine:
- 1. Create an account on the Google Cloud Platform
- 2. Create a new Project on the GCP, and enable Google Compute Engine for your project (ensure
-   that the project is given a billing account)
- 3. On your Binder server:
-   1. Install the [`gcloud`](https://cloud.google.com/sdk/) CLI tool
-   2. `gcloud auth login`
-   3. `gcloud config set project <project-name>`
+Now visit `http://<your-server-ip-address>:80` and you should see the Binder web client.
 
-Now that `gcloud` is configured, proceed with the `binder-control` installation
- 1. Install PM2: `npm install pm2 -g`
- 2. Install `binder-control`: `npm install binder-control -g`
-
-Since we're launching the Kubernetes cluster on GCE, we will configure the `binder-build` server to push its images to the Google Container Registry:
- 1. Set the `docker.registry` field to `gcr.io/<project-name>` in `~/.binder/core.conf`
-
-If you'd like to use a different Docker registry, then be sure to insert your Docker credentials into `~/.binder/core.conf` as well. 
-
-With everything installed and configured, it's time to launch the servers/services!
- 1. `binder-control start-all`
-   1. When prompted, choose to start the `kube-cluster` service
-   2. When prompted, optionally start the `db` service (unless you provide your own db)
-   3. When prompted, Optionally start the `logging` service (unless you provide your own logging stack)
-   4. Leave the Kubernetes provider as "gce"
-   5. Choose how large you would like to make your cluster (the number of Kubernetes minions)
-
-*Note*: Launching a cluster costs real money and can get expensive! Make sure to research hourly instance [costs](https://cloud.google.com/compute/pricing) and select a node count that fits in your budget.
-
-#### local
+## local deployments
 
 Kubernetes can be passed an environment variable called `$KUBERNETES_PROVIDER`, which will specify the infrastructure to create the cluster on. The `kube-cluster` Binder service wraps this variable, and sets it to `gce` by default, but you will be prompted for other options when the service is started. Check out the Kubernetes [getting started](http://kubernetes.io/docs/getting-started-guides/) for more ways to launch Kubernetes clusters on different providers.
 
@@ -72,11 +153,11 @@ One of the supported providers is "vagrant", which will launch a local Kubernete
 3. During `binder-control start-all`, select "true" for starting the `kube-cluster` service
 4. When prompted, change the Kubernetes provider from "gce" to "vagrant"
 
-#### other cloud providers
+## other cloud providers
 
-Other cloud providers supported by Kubernetes are currently untested, but feel free to try them out!
+Other cloud providers supported by Kubernetes are currently untested, but feel free to try them out and submit PRs to update this documentation with provider-specific information.
 
-#### your own hardware
+## your own hardware
 
 If you would like to set up a Kubernetes cluster on internal infrastructure, then the standard
 `binder-control start-all` script can be used, but do not start the `kube-cluster` service.
@@ -85,9 +166,9 @@ Instead, make sure to start your cluster with the configuration options (environ
 
 Also, for now, set the `kube.provider` configuration option in `~/.binder/deploy.conf` to "vagrant". This will configure the proxy service to be use a [NodePort](http://kubernetes.io/docs/user-guide/services/#type-nodeport) instead of a [LoadBalancer](http://kubernetes.io/docs/user-guide/services/#type-loadbalancer) (the latter is only supported by certain cloud providers)
 
-### customizing your deployment
+## customizing your deployment
 
-Using `binder-control start-all` is not the only option! Each server/service can be independently configured and launched on different machines. If you would like to use a custom, forked version of `binder-build`, for example, you can manually start all the other servers/services (using an  arbitrary API key):
+Using `binder-control start-all` is not the only way to launch Binder components. Each server and service can be independently configured and launched on different machines. If you would like to use a custom, forked version of `binder-build`, for example, you can manually start all the other servers and services as follows:
 
 ```bash
 andrew@binder-tester:~$ binder-control start-service db
@@ -113,8 +194,6 @@ andrew@binder-tester:~$ cd custom-build && npm start --api-key=d33b55704a932a658
 Starting the binder-build server...
 ```
 
-### accessing your deployment
+## monitoring your deployment
 
-The `binder-web` module (launched via `binder-control web start`) provides a frontend for creating/deploying binders. By default, it will be launched on port 3000 of your API server. Make sure that the machine running `binder-web` has an externally-visible IP.
-
-Once the startup process has completed, your custom deployment will be accessible at `http://<machine-ip>:3000`
+The `binder-web` module provides a frontend for creating/deploying binders. It will be launched alongside other services when running `binder-control start-all` and can also be launched using `binder-control web start`. By default, it will be launched on port 3000 of your API server. Make sure that the machine running `binder-web` has an externally-visible IP address.
