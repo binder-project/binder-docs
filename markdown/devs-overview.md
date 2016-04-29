@@ -10,7 +10,7 @@ All the services are written to conform to an API defined in [`binder-protocol`]
 - `register` combining a Docker image with a template specification for deployment
 - `deploy` launch a template on a cluster
 
-The easiest way to set up and interface with Binder services are through [`binder-control`](https://github.com/binder-project/binder-control) and [`binder-client`](https://github.com/binder-project/binder-client).
+The easiest way to setup and interface with Binder services are through [`binder-control`](https://github.com/binder-project/binder-control) and [`binder-client`](https://github.com/binder-project/binder-client).
 
 [`binder-control`](https://github.com/binder-project/binder-control) wraps all Binder services and provides an interactive tool for starting and stopping them. For example, if you launch a fresh instance on Google Compute Engine, and install the requirements, you can start all Binder services with
 
@@ -20,4 +20,4 @@ binder-control start-all
 
 [`binder-client`](https://github.com/binder-project/binder-client) is a command-line tool for interfacing with running Binder services. For example, you can use it to `build` a Binder, `deploy` a container, or `fetch` info for all running versions of a container.
 
-See "how it works" for a more detailed description of Binder's internals, and see "custom deployments" for detailed instructions on how to start and manage your own Binder deployment using [`binder-control`](https://github.com/binder-project/binder-control) and [`binder-client`](https://github.com/binder-project/binder-client). 
+See *how it works* for a more detailed description of Binder's internals, and see *custom deployments* for detailed instructions on how to start and manage your own Binder deployment using [`binder-control`](https://github.com/binder-project/binder-control) and [`binder-client`](https://github.com/binder-project/binder-client).

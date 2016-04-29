@@ -3,12 +3,12 @@ module.exports = {
     'start here': 'start-here.md'
   },
   'users': {
-    'introduction': 'users-introduction.md',
+    'overview (users)': 'users-overview.md',
     'getting started': 'getting-started.md',
     'frequently asked questions': 'faq.md'
   },
   'devs': {
-    'overview': 'devs-introduction.md',
+    'overview (devs)': 'devs-overview.md',
     'how it works': 'how-it-works.md',
     'custom deployments': 'custom-deployments.md',
     'api docs': 'api-docs.md',

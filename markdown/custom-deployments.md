@@ -1,12 +1,12 @@
 # custom deployments
 
-If your needs go beyond the public cluster — maybe you want to use private data, or need to guarantee a certain number of slots — you might be interested in a custom deployment.
+If your needs extend beyond the public cluster — maybe you want to use private data, or need to guarantee a certain number of slots — you might be interested in a custom deployment.
 
 We've tried to make it as simple as possible to launch Binder deployments using either your own infrastructure or a cloud provider. The only requirements are node.js, Docker, and a Kubernetes cluster, and we provide a command line-tool `binder-control` to make configuration easy.
 
 The public Binder cluster is running on Google Compute Engine (GCE), and this is currently the most stable and well-tested deployment setting. You can launch a single machine on GCE to run all the Binder services and servers, and we have packaged all Binder components into Docker images, so that you can do all launching and configuration with the `binder-control` command-line tool. This guide will walk through that approach.
 
-However, the system can also adapt to your environment. If you want to use your own Kubernetes cluster, Binder can integrate with it entirely through the Kubernetes HTTP API, so it does not require SSH access to the cluster nodes. And each Binder server is designed to run independently, and the configuration files in `~/.binder` enable a variety of different deployment types. 
+However, the system can also adapt to your environment. If you want to use your own Kubernetes cluster, Binder can integrate with it entirely through the Kubernetes HTTP API, so it does not require SSH access to the cluster nodes. And each Binder server is designed to run independently, with the configuration files in `~/.binder` enabling a variety of different deployment types. 
 
 ## launching a server
 
@@ -17,7 +17,7 @@ The simplest approach is to provision a single machine that will run all the Bin
  - [node](https://nodejs.org/)
  - [pm2](https://npmjs.org/package/pm2)
 
-We recommend launching this machine on GCE, and below are all of the neccessary steps. If you are using your own machine, some of these steps may be unneccessary or may need to be modified.
+We recommend launching this machine on GCE, and below are all of the needed steps starting from scratch. If you are using your own machine, some of these steps may be unneccessary or may need to be modified.
 
 First create an account on the Google Cloud Platform [website](https://cloud.google.com/). Then create a new project, and enable Google Compute Engine for your project. You'll need to ensure that you've added a billing account to the project. 
 
@@ -130,7 +130,7 @@ binder-control start-all
 
 This will initiate a series of steps that launch the `build` and `deploy` servers and the `logging` and `db` services, and creates a Kubernetes cluster.
 
-Respond to each prompt. You can leave most settings as is, though you may need to change them if e.g. you are running your own database or logging services. In the final step, when picking how large you'd like to make your Kubernetes cluster, remember that *launching a cluster costs real money* and make sure to research hourly instance [costs](https://cloud.google.com/compute/pricing).
+Respond to each prompt. You can leave most settings as is, though you may need to change them if e.g. you are running your own database or logging services. In the final step, when picking the size of your Kubernetes cluster, remember that *launching a cluster costs real money* and make sure to research hourly instance [costs](https://cloud.google.com/compute/pricing).
 
 After the launch, use the following command to make the binder web client visible on port 80.
 
@@ -144,14 +144,14 @@ Now visit `http://<your-server-ip-address>:80` and you should see the Binder web
 
 Kubernetes can be passed an environment variable called `$KUBERNETES_PROVIDER`, which will specify the infrastructure to create the cluster on. The `kube-cluster` Binder service wraps this variable, and sets it to `gce` by default, but you will be prompted for other options when the service is started. Check out the Kubernetes [getting started](http://kubernetes.io/docs/getting-started-guides/) for more ways to launch Kubernetes clusters on different providers.
 
-One of the supported providers is "vagrant", which will launch a local Kubernetes VM using VirtualBox. If you would like to run a purely local version of Binder:
+One of the supported providers is "vagrant", which will launch a local Kubernetes VM using VirtualBox. If you would like to run a purely local version of Binder follow these steps:
 
-*Note*: A local Kubernetes cluster will _not_ work properly with the Binder proxy, and so  deployments will not be externally accessible (no proxying to notebooks from the WAN). The  Kubernetes VM is really only useful for testing the `binder-deploy-kubernetes` module.
+- Install [Vagrant](https://www.vagrantup.com/downloads.html)
+- Set the `kube.provider` field in `~/.binder/deploy.conf` to "vagrant". This will alter the     behavior of the Binder proxy to work without external [load balancers](http://kubernetes.io/docs/user-guide/services/#type-loadbalancer)
+- During `binder-control start-all`, select "true" when starting the `kube-cluster` service
+- When prompted, change the Kubernetes provider from "gce" to "vagrant"
 
-1. Install [Vagrant](https://www.vagrantup.com/downloads.html)
-2. Set the `kube.provider` field in `~/.binder/deploy.conf` to "vagrant". This will alter the     behavior of the Binder proxy to work without external [load balancers](http://kubernetes.io/docs/user-guide/services/#type-loadbalancer)
-3. During `binder-control start-all`, select "true" for starting the `kube-cluster` service
-4. When prompted, change the Kubernetes provider from "gce" to "vagrant"
+*Note* A local Kubernetes cluster will *not* work properly with the Binder proxy, and so  deployments will not be externally accessible (no proxying to notebooks from the WAN). The  Kubernetes VM is mainly useful for testing the `binder-deploy-kubernetes` module during development.
 
 ## other cloud providers
 
@@ -159,12 +159,11 @@ Other cloud providers supported by Kubernetes are currently untested, but feel f
 
 ## your own hardware
 
-If you would like to set up a Kubernetes cluster on internal infrastructure, then the standard
-`binder-control start-all` script can be used, but do not start the `kube-cluster` service.
+If you would like to set up a Kubernetes cluster on internal infrastructure i.e. at an institution, then the `binder-control start-all` script can be used, but do not start the `kube-cluster` service.
 
 Instead, make sure to start your cluster with the configuration options (environment variables) defined [here](https://github.com/binder-project/binder-control/blob/master/services/kube-cluster/service.js#L71)
 
-Also, for now, set the `kube.provider` configuration option in `~/.binder/deploy.conf` to "vagrant". This will configure the proxy service to be use a [NodePort](http://kubernetes.io/docs/user-guide/services/#type-nodeport) instead of a [LoadBalancer](http://kubernetes.io/docs/user-guide/services/#type-loadbalancer) (the latter is only supported by certain cloud providers)
+Also, for now, set the `kube.provider` configuration option in `~/.binder/deploy.conf` to "vagrant". This will configure the proxy service to be use a [NodePort](http://kubernetes.io/docs/user-guide/services/#type-nodeport) instead of a [LoadBalancer](http://kubernetes.io/docs/user-guide/services/#type-loadbalancer) (the latter is only supported by certain cloud providers).
 
 ## customizing your deployment
 

@@ -4,9 +4,7 @@ Welcome to the Binder documentation site! Binder is a collection of tools for bu
 
 ## users
 
-If you're new to the project, or want to immediately start creating executable environments from your code and data using our public cluster, then check out the *users* section. It explains what Binder is and how you can start using it, and answers frequently asked questions, including a roadmap of our future plans. You should also check out the *examples* section (under *modules*), which contains example repositories covering various dependency formats.
-
-If you're already using Binder but having trouble, come join us in the [chatroom](https://gitter.im/binder-project/binder), or open an issue on [GitHub](https://github.com/binder-project/binder).
+If you're new to the project, or want to immediately start creating executable environments from your code and data using the public cluster, then check out the *users* section. It explains what Binder is and how you can start using it, and answers frequently asked questions. You should also check out the *examples* section (under *modules*), which contains example repositories covering various dependency formats. If you're already using Binder but having trouble, come join us in the [chatroom](https://gitter.im/binder-project/binder), or open an issue on [GitHub](https://github.com/binder-project/binder).
 
 ## devs
 
