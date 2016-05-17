@@ -76,8 +76,6 @@ andrew@binder-tester:~$ cat ~/.binder/build.conf
   },
   "docker": {
     "enabled": true,
-    "user": "N/A",
-    "password": "N/A",
     "email": "N/A",
     "registry": "",
     "host": "localhost"
