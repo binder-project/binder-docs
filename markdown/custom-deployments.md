@@ -17,7 +17,9 @@ The simplest approach is to provision a single machine that will run all the Bin
  - [node](https://nodejs.org/)
  - [pm2](https://npmjs.org/package/pm2)
 
-We recommend launching this machine on GCE, and below are all of the needed steps starting from scratch. If you are using your own machine, some of these steps may be unneccessary or may need to be modified.
+We highly recommend configuring this machine from a fresh compute instance on GCE, and the steps below will walk you through setting up a new machine from scratch. If you use your own machine, some of these steps may be unneccessary or may need to be modified. 
+
+*Note* Configuration has only been tested on Linux, and may not yet work on Mac OS X.
 
 First create an account on the Google Cloud Platform [website](https://cloud.google.com/). Then create a new project, and enable Google Compute Engine for your project. You'll need to ensure that you've added a billing account to the project. 
 
