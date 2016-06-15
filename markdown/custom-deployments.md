@@ -136,10 +136,10 @@ This will initiate a series of steps that launch the `build` and `deploy` server
 
 Respond to each prompt. You can leave most settings as is, though you may need to change them if e.g. you are running your own database or logging services. In the final step, when picking the size of your Kubernetes cluster, remember that *launching a cluster costs real money* and make sure to research hourly instance [costs](https://cloud.google.com/compute/pricing).
 
-After the launch, use the following command to make the binder web client visible on port 80.
+After the launch, use the following command to make the binder web client visible on port 80. Make sure that this iptables rule is not applied to the Docker bridge (usually `docker0`). Assuming that `eth0` is the interface that will be used by your server:
 
 ```bash
-sudo iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 3000
+sudo iptables -i eth0 -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 3000
 ```
 
 Now visit `http://<your-server-ip-address>:80` and you should see the Binder web client.
