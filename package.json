@@ -4,7 +4,7 @@
   "description": "documentation for the binder project",
   "main": "index.js",
   "scripts": {
-    "start": "budo index.js --live",
+    "start": "budo index.js --pushstate",
     "sync": "rm -rf ~/.ecosystem-docs && node build.js",
     "build": "npm run sync && browserify index.js -o site/bundle.js",
     "deploy": "npm run build && surge site docs.mybinder.org"
@@ -22,8 +22,7 @@
   ],
   "browserify": {
     "transform": [
-      "brfs",
-      "folderify"
+      "read-directory/transform"
     ]
   },
   "author": "freeman-lab",
@@ -37,7 +36,8 @@
     "ecosystem-docs": "^1.1.0",
     "folderify": "^1.2.1",
     "include-folder": "^1.0.0",
-    "minidocs": "^1.2.1"
+    "minidocs": "^2.0.2",
+    "read-directory": "^1.2.0"
   },
   "devDependencies": {
     "budo": "^8.2.1"

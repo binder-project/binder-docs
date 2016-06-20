@@ -1,9 +1,13 @@
 var minidocs = require('minidocs')
-var include = require('include-folder')
+var read = require('read-directory')
 var contents = require('./contents')
 
-minidocs({
+var app = minidocs({
   contents: contents,
-  markdown: include('./markdown'),
-  logo: 'logo.svg'
+  markdown: read.sync('./markdown', { extensions: false }),
+  logo: 'logo.svg',
+  initial: 'start-here'
 })
+
+var tree = app.start()
+document.body.appendChild(tree)
