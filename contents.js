@@ -5,7 +5,8 @@ module.exports = {
   'users': {
     'overview (users)': 'users-overview.md',
     'getting started': 'getting-started.md',
-    'frequently asked questions': 'faq.md'
+    'frequently asked questions': 'faq.md',
+    'release notes': 'release-notes.md'
   },
   'devs': {
     'overview (devs)': 'devs-overview.md',
