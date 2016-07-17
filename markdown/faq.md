@@ -38,7 +38,7 @@ No. We don’t provide any guarantees of privacy on the public cluster, so priva
 ### can anybody build a Binder from my repository?
 
 Yes. We do not require authentication when building from a repository. This makes it
-simple to get started, but cannot prevent others from rebuilding an existing Binder. However, as of the 1.0.0 version Binders are specified deterministically from repositoey contents. So repeated rebuilds of the same repository will be identical, and changes to the environment will require changing the repository itself.
+simple to get started, but cannot prevent others from rebuilding an existing Binder. However, as of the 1.0.0 version Binders are specified deterministically from repository contents. So repeated rebuilds of the same repository will be identical, and changes to the environment will require changing the repository itself.
 
 ### is there any extra information about the project?
 
