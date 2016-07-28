@@ -22,7 +22,7 @@
   ],
   "browserify": {
     "transform": [
-      "read-directory/transform"
+      "minidocs/transform"
     ]
   },
   "author": "freeman-lab",
@@ -36,7 +36,7 @@
     "ecosystem-docs": "^1.1.0",
     "folderify": "^1.2.1",
     "include-folder": "^1.0.0",
-    "minidocs": "^2.0.2",
+    "minidocs": "^4.0.0",
     "read-directory": "^1.2.0"
   },
   "devDependencies": {
