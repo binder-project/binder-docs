@@ -42,3 +42,9 @@ We no longer support additional services for Binder builds e.g. Spark and Postgr
 
 #### `#5`
 There's a new loading screen that will be displayed when a Binder is launched, and remain until it is ready to be used. This should prevent long waits on blank screens that might otherwise suggest a failed launch.
+
+#### `#6`
+If a build fails, and someone tries to launch the Binder for that repo, then we will deploy the last successful image for that repository. Previously, we would redirect the user to a failure page. This ensures that so long as a build was successful once, Binder badges will always function correctly.
+
+#### `#7`
+The URL structure has changed: the build status page that was previously at `mybinder.org/repo/<org>/<name>/status` is now at `mybinder.org/status/<org>/<name>`
