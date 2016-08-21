@@ -137,7 +137,14 @@ binder-control web stop
 binder-control web start --api-key=***
 ```
 
-any server or service should be deployed this way
+any server or service should be deployed this way, the full set is
+
+```
+binder-control health stop
+binder-control health start
+binder-control deploy-kubernetes stop
+binder-control deploy-kubernetes start
+```
 
 #### (1) hanging builds
 
