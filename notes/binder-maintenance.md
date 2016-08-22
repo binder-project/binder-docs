@@ -56,7 +56,7 @@ to check basic status
 pm2 list
 ```
 
-look in the restart columns for high restart counts, should never have high counts for logging, db, health, web, build, might have restart counts for deploy and kubernetes daemon
+look in the restart columns for high restart counts, should never have high restart counts for anything, if they do, it means that something's failing
 
 to see all logs
 
