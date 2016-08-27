@@ -7,6 +7,7 @@
 - [x] web + deploy server failure
 - [x] services server failure
 - [x] build server failure
+- [x] status is myseriously down
 
 
 #### open issues
@@ -294,3 +295,28 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /etc:/etc spotif
 ```
 
 this takes a little while to run depending on usage
+
+#### (6) status is myseteriously down
+
+sometimes the status checkers show they are down, but builds are building and launching successfully
+
+might just mean the health checker needs to be restarted
+
+log in with `gcloud compute ssh andrew@binder-web-deploy --zone=us-central1-f` **note** weird name
+
+check running processes with `pm2 list`
+
+get the current API key (**important**)
+
+call
+
+```
+binder-control health stop
+```
+
+then restart with
+
+
+```
+binder-control health start --api-key=***
+```
