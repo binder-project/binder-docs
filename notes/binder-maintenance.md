@@ -302,7 +302,7 @@ sometimes the status checkers show they are down, but builds are building and la
 
 might just mean the health checker needs to be restarted
 
-log in with `gcloud compute ssh andrew@binder-web-deploy --zone=us-central1-f` **note** weird name
+log in with `gcloud compute ssh andrew@binder-web-deploy --zone=us-central1-f`
 
 check running processes with `pm2 list`
 
