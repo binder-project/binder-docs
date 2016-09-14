@@ -296,6 +296,12 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /etc:/etc spotif
 
 this takes a little while to run depending on usage
 
+if there is a message about an erroneous configuration file, try deleting `.dockercfg` and then running
+
+```
+sudo service docker restart
+```
+
 #### (6) status is myseteriously down
 
 sometimes the status checkers show they are down, but builds are building and launching successfully
