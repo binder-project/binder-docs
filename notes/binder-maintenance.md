@@ -282,7 +282,7 @@ main issue is disk storage build up that requires periodic clean up
 
 log in with `gcloud compute ssh andrew@binder-tester-2 --zone=us-central1-f` **note** weird name
 
-check usage with `sudo df -dh` and check `/dev/sda1`
+check usage with `sudo df -h` and check `/dev/sda1`
 
 if we ever reach 100% disk space, `docker` "drives itself into a hole that it can't get out of"
 
